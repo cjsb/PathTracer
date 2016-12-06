@@ -39,7 +39,22 @@ int main()
 		for (int y = 0; y < height; y++) {
 			pixel = y*width + x;
 
-
+			// start with no anti-aliasing
+			if (width > height) {
+				// the image is wider than it is tall
+				xamnt = ((x + 0.5) / width)*img.aspectRatio - (((width - height) / (double)height) / 2);
+				yamnt = ((height - y) + 0.5) / height;
+			}
+			else if (height > width) {
+				// the imager is taller than it is wide
+				xamnt = (x + 0.5) / width;
+				yamnt = (((height - y) + 0.5) / height) / img.aspectRatio - (((height - width) / (double)width) / 2);
+			}
+			else {
+				// the image is square
+				xamnt = (x + 0.5) / width;
+				yamnt = ((height - y) + 0.5) / height;
+			}
 
 		}
 	}
