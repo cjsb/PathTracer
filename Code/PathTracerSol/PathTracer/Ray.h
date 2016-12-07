@@ -1,7 +1,6 @@
-//#include "glm\glm\vec3.hpp"
-//#include "glm\glm\vec4.hpp"
-//#include "glm\glm\mat4x4.hpp"
-//#include "glm\glm\gtc\matrix_transform.hpp"
+#ifndef _ray_h
+#define _ray_h
+
 #include "glm\glm\glm.hpp"
 #include "glm\glm\gtc\constants.hpp"
 
@@ -11,6 +10,8 @@ public:
 	glm::vec3 origin;
 	glm::vec3 direction;
 
-	Ray(const glm::vec3 org, const glm::vec3 dir) : origin(org), direction(dir){}
+	Ray(const glm::vec3 &org, const glm::vec3 &dir) : origin(org), direction(dir){}
 
 };
+
+#endif

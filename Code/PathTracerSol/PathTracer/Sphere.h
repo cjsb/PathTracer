@@ -12,16 +12,17 @@
 #include <random>
 
 #include "glm\glm\glm.hpp"
+#include "Ray.h"
 
-bool solveQuadratic(const float &a, const float &b, const float &c, float &x0, float &x1)
+bool solveQuadratic(const double &a, const double &b, const double &c, double &x0, double &x1)
 {
-	float discr = b * b - 4 * a * c;
+	double discr = b * b - 4 * a * c;
 	if (discr < 0) return false;
 	else if (discr == 0) {
 		x0 = x1 = -0.5 * b / a;
 	}
 	else {
-		float q = (b > 0) ?
+		double q = (b > 0) ?
 			-0.5 * (b + sqrt(discr)) :
 			-0.5 * (b - sqrt(discr));
 		x0 = q / a;
@@ -34,7 +35,7 @@ bool solveQuadratic(const float &a, const float &b, const float &c, float &x0, f
 class Sphere
 {
 public:
-	Sphere(const glm::vec3 &c, const float &r) : radius(r), radius2(r *r), center(c) {}
+	Sphere(const glm::vec3 &c, const double &r) : radius(r), radius2(r *r), center(c) {}
 	// [comment]
 	// Ray-sphere intersection test
 	//
@@ -45,9 +46,9 @@ public:
 	// \param[out] is the distance from the ray origin to the intersection point
 	//
 	// [/comment]
-	bool intersect(const glm::vec3 &orig, const glm::vec3 &dir, float &t) const
+	bool intersect(const Ray &ray, /*const glm::vec3 &orig, const glm::vec3 &dir,*/ double &t) const
 	{
-		float t0, t1; // solutions for t if the ray intersects
+		double t0, t1; // solutions for t if the ray intersects
 #if 0
 		// geometric solution
 		Vec3f L = center - orig;
@@ -60,10 +61,10 @@ public:
 		t1 = tca + thc;
 #else
 		// analytic solution
-		glm::vec3 L = orig - center;
-		float a = glm::dot(dir, dir);
-		float b = 2 * glm::dot(dir, L);
-		float c = glm::dot(L, L)  - radius2;
+		glm::vec3 L = ray.origin - center;
+		double a = glm::dot(ray.direction, ray.direction);
+		double b = 2 * glm::dot(ray.direction, L);
+		double c = glm::dot(L, L) - radius2;
 	/*	float a = dir.dotProduct(dir);
 		float b = 2 * dir.dotProduct(L);
 		float c = L.dotProduct(L) - radius2;*/
@@ -81,6 +82,6 @@ public:
 		return true;
 	}
 	
-	float radius, radius2;
+	double radius, radius2;
 	glm::vec3 center;
 };

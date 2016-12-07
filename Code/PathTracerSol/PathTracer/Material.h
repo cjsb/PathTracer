@@ -1,3 +1,6 @@
+#ifndef _material_h
+#define _material_h
+
 class Material
 {
 
@@ -9,4 +12,9 @@ public:
 	double  Kd;// Diffuse reflection coefficent
 	double  Ks;// Specular reflection coefficent
 	int  n;// Specular reflection exponent
+
+	Material(){}
+	~Material(){}
 };
+
+#endif
