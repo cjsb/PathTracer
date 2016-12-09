@@ -4,6 +4,7 @@
 #include "Quadric.h"
 #include "Ray.h"
 #include "Triangle.h"
+#include "Options.h"
 
 using namespace std;
 
@@ -12,22 +13,9 @@ int main()
 
 	cout << "Hello Path Tracer!" << endl;
 
-	
+	Options op;
 
-	//test image
-	/*Image img(500, 500);
-	for (int i = 0; i < 500; ++i){
-		for (int j = 0; j < 500; ++j){
-
-			img.set(i, j, glm::vec3(0, 0, 1));
-
-		}
-
-
-	}
-
-	img.save("testeImage.ppm");*/
-	//
+	op.readOptions();
 
 	//test ray cast
 	int width = 500;
@@ -53,9 +41,8 @@ int main()
 	glm::vec3 ver1(10, 10, 40), ver2(-10, 10, 40), ver3(0, -10, 40);
 	Triangle triangle(ver1, ver2, ver3, m);
 
-	float invWidth = 1 / float(width), invHeight = 1 / float(height);
-	float fov = 30, aspectratio = width / float(height);
-	float angle = tan(glm::pi<float>() * 0.5 * fov / 180.);
+	double invWidth = 1 / double(width), invHeight = 1 / double(height);
+	double fov = 30, aspectratio = width / double(height);
 
 	// Trace rays
 	//for (unsigned y = 0; y < height; ++y) {
@@ -109,9 +96,9 @@ int main()
 
 			glm::vec3 cam_ray_origin = camPos;
 			//glm::vec3 cam_ray_direction = camdir.vectAdd(camright.vectMult(xamnt - 0.5).vectAdd(camdown.vectMult(yamnt - 0.5))).normalize();
-			float dirX = xamnt - 0.5;
-			float dirY = yamnt - 0.5;
-			glm::vec3 cam_ray_direction = glm::normalize(camdir + ((camright*dirX) + (camdown*dirY)));
+			double dirX = xamnt - 0.5;
+			double dirY = yamnt - 0.5;
+			glm::vec3 cam_ray_direction = glm::normalize(camdir + ((camright*(float)dirX) + (camdown*(float)dirY)));
 			double t = 0;
 
 			Ray ray(cam_ray_origin, cam_ray_direction);

@@ -11,6 +11,7 @@ public:
 	double  Ka;// Ambient reflection coefficent
 	double  Kd;// Diffuse reflection coefficent
 	double  Ks;// Specular reflection coefficent
+	double  Kt;
 	int  n;// Specular reflection exponent
 
 	Material(){}

@@ -1,3 +1,6 @@
+#ifndef _camera_h
+#define _camera_h
+
 #include "glm\glm\glm.hpp"
 #include "glm\glm\gtc\constants.hpp"
 
@@ -17,3 +20,4 @@ public:
 	};
 
 };
+#endif

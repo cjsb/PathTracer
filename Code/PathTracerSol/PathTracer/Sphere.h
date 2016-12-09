@@ -1,4 +1,7 @@
 
+#ifndef _sphere_h
+#define _sphere_h
+
 #include <cstdio>
 #include <cstdlib>
 #include <memory>
@@ -85,3 +88,4 @@ public:
 	double radius, radius2;
 	glm::vec3 center;
 };
+#endif

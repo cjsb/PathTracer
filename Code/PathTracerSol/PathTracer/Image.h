@@ -1,3 +1,6 @@
+#ifndef _image_h
+#define _image_h
+
 #include "glm\glm\glm.hpp"
 #include "glm\glm\gtc\constants.hpp"
 #include <iostream>
@@ -24,3 +27,4 @@ public:
 	void save(const std::string& filename, float displayConstant = 15.0f) const;
 
 };
+#endif
