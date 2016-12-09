@@ -36,7 +36,7 @@ int main()
 	glm::vec3 Y(0, 1, 0);
 	glm::vec3 Z(0, 0, 1);
 	
-	glm::vec3 camPos(0, 0, 0);
+	glm::vec3 camPos(0, 0, -30);
 	glm::vec3 lookAt(0, 0, 1);
 	glm::vec3 diff_btw = lookAt - camPos;
 	
@@ -44,42 +44,24 @@ int main()
 	glm::vec3 camright = glm::normalize(glm::cross(Y, camdir));
 	glm::vec3 camdown = glm::cross(camright, camdir);
 	Material m;
-	Sphere sphere(glm::vec3(0, 0, 0), 1);
-	Quadric quad(1,1,1,0,0,0,0,0,10,-99,m);
+	Sphere sphere(glm::vec3(0, 0, 10), 1);
+	Quadric quad(1,1,1,0,0,0,0,0,-10,99,m);
 
-	int pixel = 0;
-	double xamnt, yamnt;
-	for (int x = 0; x < width; x++) {
-		for (int y = 0; y < height; y++) {
-			pixel = y*width + x;
 
-			// start with no anti-aliasing
-			if (width > height) {
-				// the image is wider than it is tall
-				xamnt = ((x + 0.5) / width)*img.aspectRatio - (((width - height) / (double)height) / 2);
-				yamnt = ((height - y) + 0.5) / height;
-			}
-			else if (height > width) {
-				// the imager is taller than it is wide
-				xamnt = (x + 0.5) / width;
-				yamnt = (((height - y) + 0.5) / height) / img.aspectRatio - (((height - width) / (double)width) / 2);
-			}
-			else {
-				// the image is square
-				xamnt = (x + 0.5) / width;
-				yamnt = ((height - y) + 0.5) / height;
-			}
-
-			glm::vec3 cam_ray_origin = camPos;
-			//glm::vec3 cam_ray_direction = camdir.vectAdd(camright.vectMult(xamnt - 0.5).vectAdd(camdown.vectMult(yamnt - 0.5))).normalize();
-			float dirX = xamnt - 0.5;
-			float dirY = yamnt - 0.5;
-			glm::vec3 cam_ray_direction = glm::normalize(camdir + ((camright*dirX) + (camdown*dirY)));
-			double t = 0;
-
-			Ray ray(cam_ray_origin, cam_ray_direction);
-
+	float invWidth = 1 / float(width), invHeight = 1 / float(height);
+	float fov = 30, aspectratio = width / float(height);
+	float angle = tan(glm::pi<float>() * 0.5 * fov / 180.);
+	// Trace rays
+	for (unsigned y = 0; y < height; ++y) {
+		for (unsigned x = 0; x < width; ++x) {
+			float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
+			float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
+			glm::vec3 raydirX(xx, yy, 1);
+			glm::vec3 raydir = glm::normalize(raydirX);
+			Ray ray(glm::vec3(0,0,0), raydir);
+			double t;
 			bool find = quad.intersect(/*cam_ray_origin, cam_ray_direction*/ray, t);
+			//cout << t << endl;
 			//bool find = 
 			if (find){
 				img.set(x, y, glm::vec3(0, 0, 1));
@@ -89,6 +71,50 @@ int main()
 			}
 		}
 	}
+
+	//int pixel = 0;
+	//double xamnt, yamnt;
+	//for (int x = 0; x < width; x++) {
+	//	for (int y = 0; y < height; y++) {
+	//		pixel = y*width + x;
+
+	//		// start with no anti-aliasing
+	//		if (width > height) {
+	//			// the image is wider than it is tall
+	//			xamnt = ((x + 0.5) / width)*img.aspectRatio - (((width - height) / (double)height) / 2);
+	//			yamnt = ((height - y) + 0.5) / height;
+	//		}
+	//		else if (height > width) {
+	//			// the imager is taller than it is wide
+	//			xamnt = (x + 0.5) / width;
+	//			yamnt = (((height - y) + 0.5) / height) / img.aspectRatio - (((height - width) / (double)width) / 2);
+	//		}
+	//		else {
+	//			// the image is square
+	//			xamnt = (x + 0.5) / width;
+	//			yamnt = ((height - y) + 0.5) / height;
+	//		}
+
+	//		glm::vec3 cam_ray_origin = camPos;
+	//		//glm::vec3 cam_ray_direction = camdir.vectAdd(camright.vectMult(xamnt - 0.5).vectAdd(camdown.vectMult(yamnt - 0.5))).normalize();
+	//		float dirX = xamnt - 0.5;
+	//		float dirY = yamnt - 0.5;
+	//		glm::vec3 cam_ray_direction = glm::normalize(camdir + ((camright*dirX) + (camdown*dirY)));
+	//		double t = 0;
+
+	//		Ray ray(cam_ray_origin, cam_ray_direction);
+
+	//		bool find = quad.intersect(/*cam_ray_origin, cam_ray_direction*/ray, t);
+	//		//cout << t << endl;
+	//		//bool find = 
+	//		if (find){
+	//			img.set(x, y, glm::vec3(0, 0, 1));
+	//		}
+	//		else{
+	//			img.set(x, y, glm::vec3(1, 1, 1));
+	//		}
+	//	}
+	//}
 	img.save("testeImage.ppm"); 
 	return 0;
 
