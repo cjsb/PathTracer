@@ -8,6 +8,8 @@
 #include <string>
 #include <sstream>
 #include "Light.h"
+#include "Quadric.h"
+#include "Triangle.h"
 
 using namespace glm;
 
@@ -22,12 +24,15 @@ public:
 	vec2 size;
 	char *objName, *fileName, *objLight;
 	Light light;
+	Quadric objQuadric;
 	Material objMaterial;
+	
 
 	Options(){}
 	~Options(){}
 
 	void readOptions();
+	void readObj(char *filename, Material m);
 };
 
 #endif

@@ -13,9 +13,11 @@ int main()
 
 	cout << "Hello Path Tracer!" << endl;
 
-	Options op;
+	Options conf;
+	//vector trian
+	conf.readOptions();
 
-	op.readOptions();
+	
 
 	//test ray cast
 	int width = 500;

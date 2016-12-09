@@ -7,10 +7,12 @@ void Options::readOptions(){
 
 	ifstream is;
 	is.open("C:\\Users\\Andre Luiz\\Desktop\\Projeto CG\\PathTracer\\Code\\PathTracerSol\\PathTracer\\input.txt");
-	Light light;
+
 	objLight = new char[40];
 	fileName = new char[40];
 	objName = new char[40];
+
+	Light light;
 	string stringvar, ignore;
 
 	while (!is.eof()){
@@ -64,10 +66,55 @@ void Options::readOptions(){
 			is >> objMaterial.Ks;
 			is >> objMaterial.Kt;
 			is >> objMaterial.n;
+			readObj(objName, objMaterial);
+		}
+		//objectquadric a b c d e f g h j k red green blue ka kd ks kt n
+		else if (stringvar.compare("objectquadric") == 0){
+			is >> objQuadric.a;
+			is >> objQuadric.b;
+			is >> objQuadric.c;
+			is >> objQuadric.d;
+			is >> objQuadric.e;
+			is >> objQuadric.f;
+			is >> objQuadric.g;
+			is >> objQuadric.h;
+			is >> objQuadric.j;
+			is >> objQuadric.k;
+			is >> objQuadric.material.r;
+			is >> objQuadric.material.g;
+			is >> objQuadric.material.b;
+			is >> objQuadric.material.Ka;
+			is >> objQuadric.material.Kd;
+			is >> objQuadric.material.Ks;
+			is >> objQuadric.material.Kt;
+			is >> objQuadric.material.n;
 		}
 		else if (stringvar.compare("output") == 0){
 			is >> fileName;
 		}
 		
 	}
+}
+
+void Options::readObj(char *filename, Material m){
+
+	ifstream modelo(filename, ifstream::in);
+	string type;
+
+	//Tem que criar um vetor de vec3
+	vec3 vertices, faces;
+
+	while ((modelo >> type)){
+		if (type == "v"){
+
+			modelo >> vertices.x >> vertices.y >> vertices.z;
+		}else if (type == "f"){
+
+			modelo >> faces.x >> faces.y >> faces.z;
+		}else {
+			modelo.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+
+	}
+	//Triangle t(vertices[0], vertices[1], vertices[2], m)
 }

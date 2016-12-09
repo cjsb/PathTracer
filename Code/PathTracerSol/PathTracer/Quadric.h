@@ -33,6 +33,7 @@ public:
 		const double& j, const double& k, const Material& material)
 		: a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h), j(j), k(k), material(material) {};
 	
+	Quadric(){};
 	~Quadric(){};
 	
 	bool intersect(const Ray& ray, double &t);
