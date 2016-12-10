@@ -5,6 +5,7 @@
 #include "Ray.h"
 #include "Triangle.h"
 #include "Options.h"
+#include "Mesh.h"
 
 using namespace std;
 
@@ -16,9 +17,7 @@ int main()
 	Options conf;
 	//vector trian
 	conf.readOptions();
-
 	
-
 	//test ray cast
 	int width = 500;
 	int height = 500;
