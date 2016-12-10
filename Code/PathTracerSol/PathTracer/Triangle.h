@@ -15,10 +15,10 @@ class Triangle
 public:
 
 	glm::vec3 v0, v1, v2;		// Triangle's vertices
-	Material m;
+	
 	double kEpsilon = 1e-8;
 
-	Triangle(const glm::vec3 &Ver1, const glm::vec3 &Ver2, const glm::vec3 &Ver3, const Material &material) : v0(Ver1), v1(Ver2), v2(Ver3), m(material) {}
+	Triangle(const glm::vec3 &Ver1, const glm::vec3 &Ver2, const glm::vec3 &Ver3) : v0(Ver1), v1(Ver2), v2(Ver3) {}
 	~Triangle(){};
 
 	bool rayTriangleIntersect(Ray ray, double &t, double &u, double &v);

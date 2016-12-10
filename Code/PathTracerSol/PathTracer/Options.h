@@ -11,6 +11,8 @@
 #include "Quadric.h"
 #include "Triangle.h"
 #include "Scene.h"
+#include "Camera.h"
+#include "Mesh.h"
 
 using namespace glm;
 
@@ -23,7 +25,8 @@ public:
 	double tonemapping, ambient;
 	vec3 eye, background;
 	vec2 size;
-	char *objName, *fileName, *objLight;
+	char *objName, *objLight;
+	char *outputFileName = "";
 	Light light;
 	Quadric objQuadric;
 	Material objMaterial;
@@ -33,7 +36,7 @@ public:
 	~Options(){}
 
 	void readOptions(char* fileName, Scene &scene);
-	void readObj(char *filename, Material m);
+	void readObj(const char *filename, Mesh &mesh);
 };
 
 #endif

@@ -18,6 +18,7 @@ public:
 
 	Camera(const glm::vec3 eye, const glm::vec3 lookAt, const glm::vec3 up) : zNear(0.1f), zFar(100.f), foV(glm::pi<float>() / 2.0f), eye(eye), lookAt(lookAt), up(up){
 	};
+	Camera(){};
 
 };
 #endif

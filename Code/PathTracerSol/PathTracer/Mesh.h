@@ -18,15 +18,15 @@ class Mesh
 
 public:
 
-	std::vector<Triangle> mesh;
+	std::vector<Triangle> triangles;
 	Material material;
 
-	Mesh(const std::vector<Triangle>& mesh, const Material &material):
-		mesh(mesh), material(material)
+	Mesh(const std::vector<Triangle>& triangles, const Material &material) :
+		triangles(triangles), material(material)
 	{
 
 	}
-	
+	Mesh(){}
 };
 
 #endif

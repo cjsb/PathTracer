@@ -18,7 +18,7 @@ int main()
 	Options conf;
 	//vector trian
 	int i = 0;
-	conf.readOptions("input.txt", scene);
+	conf.readOptions("files/cornellroom.sdl", scene);
 	cout << i << endl;
 	//test ray cast
 	int width = 500;
@@ -42,7 +42,7 @@ int main()
 	Quadric quad(1,1,1,0,0,0,0,0,-10,99,m);
 	double u = 0, v = 0;
 	glm::vec3 ver1(10, 10, 40), ver2(-10, 10, 40), ver3(0, -10, 40);
-	Triangle triangle(ver1, ver2, ver3, m);
+	Triangle triangle(ver1, ver2, ver3);
 
 	double invWidth = 1 / double(width), invHeight = 1 / double(height);
 	double fov = 30, aspectratio = width / double(height);

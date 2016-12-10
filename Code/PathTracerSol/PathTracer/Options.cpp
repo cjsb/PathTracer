@@ -12,8 +12,11 @@ void Options::readOptions(char* fileName, Scene &scene){
 	fileName = new char[40];
 	objName = new char[40];
 
-	Light light;
 	string stringvar, ignore;
+	Light light;
+	std::vector<Mesh> meshes;
+	std::vector<Quadric> quadrics;
+	std::vector<Light> lights;
 
 	while (!is.eof()){
 
@@ -27,6 +30,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> eye.x;
 			is >> eye.y;
 			is >> eye.z;
+			
 		}
 		else if (stringvar.compare("size") == 0){
 			is >> size.x;
@@ -46,6 +50,14 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> light.g;
 			is >> light.b;
 			is >> light.Ip;
+
+			Mesh m;
+			string filePath = "files/";
+			filePath.append(objLight);
+			readObj(filePath.c_str(), m);
+			Light li(m, light.r, light.g, light.b, light.Ip);
+			lights.push_back(li);
+
 		}
 		else if (stringvar.compare("npaths") == 0){
 			is >> npaths;
@@ -66,7 +78,12 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> objMaterial.Ks;
 			is >> objMaterial.Kt;
 			is >> objMaterial.n;
-			readObj(objName, objMaterial);
+			Mesh m;
+			string filePath = "files/";
+			filePath.append(objName);
+			readObj(filePath.c_str(), m);
+			m.material = objMaterial;
+			meshes.push_back(m);
 		}
 		//objectquadric a b c d e f g h j k red green blue ka kd ks kt n
 		else if (stringvar.compare("objectquadric") == 0){
@@ -88,33 +105,46 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> objQuadric.material.Ks;
 			is >> objQuadric.material.Kt;
 			is >> objQuadric.material.n;
+
+			Quadric quad(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
+				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k, objQuadric.material);
+			quadrics.push_back(quad);
+
 		}
 		else if (stringvar.compare("output") == 0){
-			is >> fileName;
+			//is >> outputFileName;
 		}
 		
 	}
+
+	//create scene
+	Camera camera(eye, glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
+	
 }
 
-void Options::readObj(char *filename, Material m){
+void Options::readObj(const char *filename, Mesh &mesh){
 
 	ifstream modelo(filename, ifstream::in);
 	string type;
 
 	//Tem que criar um vetor de vec3
-	vec3 vertices, faces;
+	glm::vec3 vertex, faces;
+	std::vector<glm::vec3> vertices;
+	std::vector<Triangle> triangles;
 
 	while ((modelo >> type)){
 		if (type == "v"){
 
-			modelo >> vertices.x >> vertices.y >> vertices.z;
+			modelo >> vertex.x >> vertex.y >> vertex.z;
+			vertices.push_back(vertex);
 		}else if (type == "f"){
 
 			modelo >> faces.x >> faces.y >> faces.z;
+			mesh.triangles.push_back(Triangle(vertices.at(faces.x - 1), vertices.at(faces.y - 1), vertices.at(faces.z - 1)));
 		}else {
 			modelo.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
 
 	}
-	//Triangle t(vertices[0], vertices[1], vertices[2], m)
+	
 }
