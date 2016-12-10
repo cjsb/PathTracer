@@ -3,10 +3,10 @@
 
 using namespace std;
 
-void Options::readOptions(){
-
+void Options::readOptions(char* fileName, Scene &scene){
+	
 	ifstream is;
-	is.open("C:\\Users\\Andre Luiz\\Desktop\\Projeto CG\\PathTracer\\Code\\PathTracerSol\\PathTracer\\input.txt");
+	is.open(fileName);
 
 	objLight = new char[40];
 	fileName = new char[40];

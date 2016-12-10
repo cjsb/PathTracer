@@ -83,6 +83,7 @@
     <ClInclude Include="Options.h" />
     <ClInclude Include="Quadric.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>

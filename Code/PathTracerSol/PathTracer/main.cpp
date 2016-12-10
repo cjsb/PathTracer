@@ -6,6 +6,7 @@
 #include "Triangle.h"
 #include "Options.h"
 #include "Mesh.h"
+#include "scene.h"
 
 using namespace std;
 
@@ -13,11 +14,12 @@ int main()
 {
 
 	cout << "Hello Path Tracer!" << endl;
-
+	Scene scene;
 	Options conf;
 	//vector trian
-	conf.readOptions();
-	
+	int i = 0;
+	conf.readOptions("input.txt", scene);
+	cout << i << endl;
 	//test ray cast
 	int width = 500;
 	int height = 500;

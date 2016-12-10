@@ -10,6 +10,7 @@
 #include "Light.h"
 #include "Quadric.h"
 #include "Triangle.h"
+#include "Scene.h"
 
 using namespace glm;
 
@@ -31,7 +32,7 @@ public:
 	Options(){}
 	~Options(){}
 
-	void readOptions();
+	void readOptions(char* fileName, Scene &scene);
 	void readObj(char *filename, Material m);
 };
 
