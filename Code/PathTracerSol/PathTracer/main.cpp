@@ -7,6 +7,7 @@
 #include "Options.h"
 #include "Mesh.h"
 #include "scene.h"
+#include "Object.h"
 
 using namespace std;
 
@@ -105,6 +106,8 @@ int main()
 			double t = 0;
 
 			Ray ray(cam_ray_origin, cam_ray_direction);
+			vector<Object> objects;
+
 
 			bool foundOne = false;
 			for (int i = 0; i < scene.meshes.size(); ++i){
