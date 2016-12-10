@@ -27,11 +27,11 @@ int main()
 
 	glm::vec3 O(0, 0, 0);
 	glm::vec3 X(1, 0, 0);
-	glm::vec3 Y(0, 1, 0);
+	glm::vec3 Y(0, -1, 0);
 	glm::vec3 Z(0, 0, 1);
 	
 	glm::vec3 camPos(0, 0, 0);
-	glm::vec3 lookAt(0, 0, 1);
+	glm::vec3 lookAt(0, 0, -1);
 	glm::vec3 diff_btw = lookAt - camPos;
 	
 	glm::vec3 camdir = glm::normalize(diff_btw); //diff_btw.negative().normalize();
@@ -106,16 +106,32 @@ int main()
 
 			Ray ray(cam_ray_origin, cam_ray_direction);
 
-			bool find = quad.intersect(/*cam_ray_origin, cam_ray_direction*/ray, t);
-			bool findTri = triangle.rayTriangleIntersect(ray, t, u, v);
-			//cout << t << endl;
-			//bool find = 
-			if (findTri){
-				img.set(x, y, glm::vec3(0, 0, 1));
+			bool foundOne = false;
+			for (int i = 0; i < scene.meshes.size(); ++i){
+				for (int j = 0; j < scene.meshes.at(i).triangles.size(); ++j){
+					bool findTri = scene.meshes.at(i).triangles.at(j).rayTriangleIntersect(ray, t, u, v);
+					//cout << t << endl;
+					//bool find = 
+					if (findTri){
+						img.set(x, y, glm::vec3(0, 0, 1));
+						foundOne = true;
+					}
+				}
+
 			}
-			else{
+			if (!foundOne){
 				img.set(x, y, glm::vec3(1, 1, 1));
 			}
+			//bool find = quad.intersect(/*cam_ray_origin, cam_ray_direction*/ray, t);
+			//bool findTri = triangle.rayTriangleIntersect(ray, t, u, v);
+			////cout << t << endl;
+			////bool find = 
+			//if (findTri){
+			//	img.set(x, y, glm::vec3(0, 0, 1));
+			//}
+			//else{
+			//	img.set(x, y, glm::vec3(1, 1, 1));
+			//}
 		}
 	}
 	img.save("testeImage.ppm"); 
