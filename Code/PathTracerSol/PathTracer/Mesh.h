@@ -19,11 +19,10 @@ class Mesh
 public:
 
 	std::vector<Triangle> mesh;
-	std::vector<int> test;
 	Material material;
 
-	Mesh(const std::vector<Triangle>& mesh, const Material &material, const std::vector<int>& test):
-		mesh(mesh), material(material), test(test)
+	Mesh(const std::vector<Triangle>& mesh, const Material &material):
+		mesh(mesh), material(material)
 	{
 
 	}
