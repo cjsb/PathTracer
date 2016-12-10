@@ -17,9 +17,9 @@ int main()
 	Scene scene;
 	Options conf;
 	//vector trian
-	int i = 0;
+	cout << "sdl loading..." << endl;
 	conf.readOptions("files/cornellroom.sdl", scene);
-	cout << i << endl;
+	cout << "sdl loaded" << endl;
 	//test ray cast
 	int width = 500;
 	int height = 500;

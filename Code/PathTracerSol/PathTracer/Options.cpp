@@ -119,7 +119,10 @@ void Options::readOptions(char* fileName, Scene &scene){
 
 	//create scene
 	Camera camera(eye, glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
-	
+	scene.camera = camera;
+	scene.lights = lights;
+	scene.meshes = meshes;
+	scene.quadrics = quadrics;
 }
 
 void Options::readObj(const char *filename, Mesh &mesh){
