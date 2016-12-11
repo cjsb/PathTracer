@@ -84,7 +84,8 @@ void Options::readOptions(char* fileName, Scene &scene){
 			readObj(filePath.c_str(), m);
 			m.material = objMaterial;
 			meshes.push_back(m);
-			scene.objects.push_back(&m);
+			Mesh *mesh = new Mesh(m.triangles, m.material);
+			scene.objects.push_back(mesh);
 		}
 		//objectquadric a b c d e f g h j k red green blue ka kd ks kt n
 		else if (stringvar.compare("objectquadric") == 0){

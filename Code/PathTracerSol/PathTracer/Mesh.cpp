@@ -7,14 +7,15 @@ bool Mesh::intersect(const Ray& ray, Intersection &inter){
 	bool intersected = false;
 	for (int j = 0; j < triangles.size(); ++j){
 
-		double t;
-		double u;
-		double v;
+		double t = 0;
+		double u = 0;
+		double v = 0;
 
 		bool findTri = triangles.at(j).rayTriangleIntersect(ray, t, u, v);
 		//cout << t << endl;
 		//bool find = 
 		if (findTri){
+			intersected = true;
 			if (t < tInt){
 				tInt = t;
 				intersected = true;

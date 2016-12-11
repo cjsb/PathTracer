@@ -28,11 +28,11 @@ int main()
 
 	glm::vec3 O(0, 0, 0);
 	glm::vec3 X(1, 0, 0);
-	glm::vec3 Y(0, 1, 0);
+	glm::vec3 Y(0, -1, 0);
 	glm::vec3 Z(0, 0, 1);
 	
 	glm::vec3 camPos(0, 0, 0);
-	glm::vec3 lookAt(0, 0, 1);
+	glm::vec3 lookAt(0, 0, -1);
 	glm::vec3 diff_btw = lookAt - camPos;
 	
 	glm::vec3 camdir = glm::normalize(diff_btw); //diff_btw.negative().normalize();
@@ -107,13 +107,25 @@ int main()
 			double dirX = xamnt - 0.5;
 			double dirY = yamnt - 0.5;
 			glm::vec3 cam_ray_direction = glm::normalize(camdir + ((camright*(float)dirX) + (camdown*(float)dirY)));
-			double t = 0;
-
+			
 			Ray ray(cam_ray_origin, cam_ray_direction);
-			vector<Object> objects;
 
+			img.set(x, y, glm::vec3(1, 1, 1));
+			Intersection inter;
+			for (int i = 0; i < scene.objects.size(); ++i){
+			
+				bool find = scene.objects.at(i)->intersect(ray, inter);
+					if (find){
+						img.set(x, y, glm::vec3(0, 0, 1));
+					}
+				
+				
+
+			}
+			
 
 			//bool foundOne = false;
+			//double t;
 			//for (int i = 0; i < scene.meshes.size(); ++i){
 			//	for (int j = 0; j < scene.meshes.at(i).triangles.size(); ++j){
 			//		bool findTri = scene.meshes.at(i).triangles.at(j).rayTriangleIntersect(ray, t, u, v);
@@ -130,18 +142,18 @@ int main()
 			//	img.set(x, y, glm::vec3(1, 1, 1));
 			//}
 
-			Intersection inter;
-			auto obj1 = obj.at(0);
-			bool find = obj1->intersect(/*cam_ray_origin, cam_ray_direction*/ray, inter);
-			//bool findTri = triangle.rayTriangleIntersect(ray, t, u, v);
-			//cout << t << endl;
-			//bool find = 
-			if (find){
-				img.set(x, y, glm::vec3(0, 0, 1));
-			}
-			else{
-				img.set(x, y, glm::vec3(1, 1, 1));
-			}
+			//Intersection inter;
+			//auto obj1 = obj.at(0);
+			//bool find = obj1->intersect(/*cam_ray_origin, cam_ray_direction*/ray, inter);
+			////bool findTri = triangle.rayTriangleIntersect(ray, t, u, v);
+			////cout << t << endl;
+			////bool find = 
+			//if (find){
+			//	img.set(x, y, glm::vec3(0, 0, 1));
+			//}
+			//else{
+			//	img.set(x, y, glm::vec3(1, 1, 1));
+			//}
 		}
 	}
 	img.save("testeImage.ppm"); 
