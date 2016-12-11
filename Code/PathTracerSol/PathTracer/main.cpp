@@ -6,7 +6,7 @@
 #include "Triangle.h"
 #include "Options.h"
 #include "Mesh.h"
-#include "scene.h"
+#include "Scene.h"
 #include "Object.h"
 
 using namespace std;
@@ -28,19 +28,23 @@ int main()
 
 	glm::vec3 O(0, 0, 0);
 	glm::vec3 X(1, 0, 0);
-	glm::vec3 Y(0, -1, 0);
+	glm::vec3 Y(0, 1, 0);
 	glm::vec3 Z(0, 0, 1);
 	
 	glm::vec3 camPos(0, 0, 0);
-	glm::vec3 lookAt(0, 0, -1);
+	glm::vec3 lookAt(0, 0, 1);
 	glm::vec3 diff_btw = lookAt - camPos;
 	
 	glm::vec3 camdir = glm::normalize(diff_btw); //diff_btw.negative().normalize();
 	glm::vec3 camright = glm::normalize(glm::cross(Y, camdir));
 	glm::vec3 camdown = glm::cross(camright, camdir);
 	Material m;
+	vector<Object*> obj;
 	Sphere sphere(glm::vec3(0, 0, 10), 1);
-	Quadric quad(1,1,1,0,0,0,0,0,-10,99,m);
+
+	Object *quad = new Quadric(1,1,1,0,0,0,0,0,-10,99,m);
+
+	obj.push_back(quad);
 	double u = 0, v = 0;
 	glm::vec3 ver1(10, 10, 40), ver2(-10, 10, 40), ver3(0, -10, 40);
 	Triangle triangle(ver1, ver2, ver3);
@@ -109,32 +113,35 @@ int main()
 			vector<Object> objects;
 
 
-			bool foundOne = false;
-			for (int i = 0; i < scene.meshes.size(); ++i){
-				for (int j = 0; j < scene.meshes.at(i).triangles.size(); ++j){
-					bool findTri = scene.meshes.at(i).triangles.at(j).rayTriangleIntersect(ray, t, u, v);
-					//cout << t << endl;
-					//bool find = 
-					if (findTri){
-						img.set(x, y, glm::vec3(0, 0, 1));
-						foundOne = true;
-					}
-				}
+			//bool foundOne = false;
+			//for (int i = 0; i < scene.meshes.size(); ++i){
+			//	for (int j = 0; j < scene.meshes.at(i).triangles.size(); ++j){
+			//		bool findTri = scene.meshes.at(i).triangles.at(j).rayTriangleIntersect(ray, t, u, v);
+			//		//cout << t << endl;
+			//		//bool find = 
+			//		if (findTri){
+			//			img.set(x, y, glm::vec3(0, 0, 1));
+			//			foundOne = true;
+			//		}
+			//	}
 
-			}
-			if (!foundOne){
-				img.set(x, y, glm::vec3(1, 1, 1));
-			}
-			//bool find = quad.intersect(/*cam_ray_origin, cam_ray_direction*/ray, t);
-			//bool findTri = triangle.rayTriangleIntersect(ray, t, u, v);
-			////cout << t << endl;
-			////bool find = 
-			//if (findTri){
-			//	img.set(x, y, glm::vec3(0, 0, 1));
 			//}
-			//else{
+			//if (!foundOne){
 			//	img.set(x, y, glm::vec3(1, 1, 1));
 			//}
+
+			Intersection inter;
+			auto obj1 = obj.at(0);
+			bool find = obj1->intersect(/*cam_ray_origin, cam_ray_direction*/ray, inter);
+			//bool findTri = triangle.rayTriangleIntersect(ray, t, u, v);
+			//cout << t << endl;
+			//bool find = 
+			if (find){
+				img.set(x, y, glm::vec3(0, 0, 1));
+			}
+			else{
+				img.set(x, y, glm::vec3(1, 1, 1));
+			}
 		}
 	}
 	img.save("testeImage.ppm"); 

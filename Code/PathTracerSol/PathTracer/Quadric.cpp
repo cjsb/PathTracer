@@ -1,13 +1,14 @@
 #include "Quadric.h"
 #include "Ray.h"
 
-bool Quadric::intersect(const Ray& ray, double &t){
+bool Quadric::intersect(const Ray& ray, Intersection &inter){
 
 	double  acoef, bcoef, ccoef;// Intersection coefficents
 	double  dx, dy, dz;// Direction - origin coordinates
 	double  disc;// Distance to intersection
 	double  root;// Root of distance to intersection
 	double  x0, y0, z0;// Origin coordinates
+	double t;
 
 	dx = ray.direction.x - ray.origin.x;
 	dy = ray.direction.y - ray.origin.y;
@@ -56,5 +57,6 @@ bool Quadric::intersect(const Ray& ray, double &t){
 	if (t < 0.001)
 		return false;
 
+	inter.t = t;
 	return true;
 }

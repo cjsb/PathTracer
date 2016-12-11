@@ -17,10 +17,10 @@
 #include "glm\glm\glm.hpp"
 #include "Material.h"
 #include "Ray.h"
+#include "Object.h"
+#include "Intersection.h"
 
-class Material;
-
-class Quadric
+class Quadric : public Object
 {
 
 public:
@@ -36,7 +36,7 @@ public:
 	Quadric(){};
 	~Quadric(){};
 	
-	bool intersect(const Ray& ray, double &t);
+	bool intersect(const Ray& ray, Intersection &inter);
 };
 
 #endif

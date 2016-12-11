@@ -84,6 +84,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 			readObj(filePath.c_str(), m);
 			m.material = objMaterial;
 			meshes.push_back(m);
+			scene.objects.push_back(&m);
 		}
 		//objectquadric a b c d e f g h j k red green blue ka kd ks kt n
 		else if (stringvar.compare("objectquadric") == 0){
@@ -106,9 +107,12 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> objQuadric.material.Kt;
 			is >> objQuadric.material.n;
 
-			Quadric quad(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
+			/*Quadric quad(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
 				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k, objQuadric.material);
-			quadrics.push_back(quad);
+			quadrics.push_back(quad);*/
+			Quadric *quad = new Quadric(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
+				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k, objQuadric.material);
+			scene.objects.push_back(quad);
 
 		}
 		else if (stringvar.compare("output") == 0){

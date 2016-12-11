@@ -9,11 +9,12 @@
 #include "Triangle.h"
 #include <iostream>
 #include <vector>
+#include "Object.h"
 
 class Material;
 class Triangle;
 
-class Mesh
+class Mesh : public Object
 {
 
 public:
@@ -27,6 +28,8 @@ public:
 
 	}
 	Mesh(){}
+
+	bool intersect(const Ray& ray, Intersection &inter);
 };
 
 #endif

@@ -25,12 +25,12 @@ class Object
 {
 
 public:
-	Material material;				// Surface's material properties
+	//Material material;				// Surface's material properties
 
 	Object(){};
 	~Object(){};
 
-	bool intersect(const Ray& ray, Intersection &inter);
+	virtual bool intersect(const Ray& ray, Intersection &inter) = 0;
 };
 
 #endif
