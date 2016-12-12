@@ -20,10 +20,10 @@ class Mesh : public Object
 public:
 
 	std::vector<Triangle> triangles;
-	Material material;
+	/*Material material;*/
 
-	Mesh(const std::vector<Triangle>& triangles, const Material &material) :
-		triangles(triangles), material(material)
+	Mesh(const std::vector<Triangle>& triangles) :
+		triangles(triangles)
 	{
 
 	}

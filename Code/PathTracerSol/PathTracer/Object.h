@@ -25,8 +25,9 @@ class Object
 {
 
 public:
-	//Material material;				// Surface's material properties
+	Material material;				// Surface's material properties
 
+	Object(const Material &material) : material(material){};
 	Object(){};
 	~Object(){};
 

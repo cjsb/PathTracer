@@ -55,8 +55,8 @@ void Options::readOptions(char* fileName, Scene &scene){
 			string filePath = "files/";
 			filePath.append(objLight);
 			readObj(filePath.c_str(), m);
-			Light li(m, light.r, light.g, light.b, light.Ip);
-			lights.push_back(li);
+			Light *li = new Light(m, light.r, light.g, light.b, light.Ip);
+			scene.lights.push_back(li);
 
 		}
 		else if (stringvar.compare("npaths") == 0){
@@ -84,7 +84,8 @@ void Options::readOptions(char* fileName, Scene &scene){
 			readObj(filePath.c_str(), m);
 			m.material = objMaterial;
 			meshes.push_back(m);
-			Mesh *mesh = new Mesh(m.triangles, m.material);
+			Mesh *mesh = new Mesh(m.triangles);
+			mesh->material = m.material;
 			scene.objects.push_back(mesh);
 		}
 		//objectquadric a b c d e f g h j k red green blue ka kd ks kt n
@@ -125,7 +126,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 	//create scene
 	Camera camera(eye, glm::vec3(0, 0, -1), glm::vec3(0, -1, 0));
 	scene.camera = camera;
-	scene.lights = lights;
+	/*scene.lights = lights;*/
 	scene.meshes = meshes;
 	scene.quadrics = quadrics;
 }

@@ -23,10 +23,10 @@ public:
 	std::vector<Object*> objects;
 	std::vector<Mesh> meshes;
 	std::vector<Quadric> quadrics;
-	std::vector<Light> lights;
+	std::vector<Light*> lights;
 	Camera camera;
 
-	Scene(const std::vector<Object*>& objects, const std::vector<Mesh>& meshes, const	std::vector<Quadric>& quadrics, const std::vector<Light>& lights, const Camera& camera) :
+	Scene(const std::vector<Object*>& objects, const std::vector<Mesh>& meshes, const	std::vector<Quadric>& quadrics, const std::vector<Light*>& lights, const Camera& camera) :
 		objects(objects), meshes(meshes), quadrics(quadrics), lights(lights), camera(camera){}
 
 	Scene(){}

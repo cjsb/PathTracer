@@ -20,7 +20,7 @@ int main()
 	Options conf;
 	//vector trian
 	cout << "sdl loading..." << endl;
-	conf.readOptions("files/cornellroom.sdl", scene);
+	conf.readOptions("files/cornellroomV2.sdl", scene);
 	cout << "sdl loaded" << endl;
 	//test ray cast
 	Image img(conf.size.x, conf.size.y);

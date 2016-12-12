@@ -12,6 +12,7 @@
 
 	glm::vec3 tracer(const Ray &ray, const Scene &scene, int &depth);
 
+	bool rayCast(const Ray &ray, const Scene &scene, Intersection &inter);
 
 
 

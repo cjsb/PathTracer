@@ -17,7 +17,7 @@
 #include "Material.h"
 #include "Ray.h"
 
-enum ObjType { MESH, QUADRIC };
+enum ObjType { MESH, QUADRIC, LIGHT };
 
 class Intersection
 {
