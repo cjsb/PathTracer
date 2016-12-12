@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "Scene.h"
 #include "Object.h"
+#include "PathTracer.h"
 
 using namespace std;
 
@@ -52,8 +53,9 @@ int main()
 			glm::vec3 cam_ray_direction = glm::normalize(scene.camera.cameraDir + ((scene.camera.camRight*(float)dirX) + (scene.camera.camDown*(float)dirY)));
 
 			Ray ray(cam_ray_origin, cam_ray_direction);
-
-			img.set(x, y, glm::vec3(1, 1, 1));
+			int depth = 5;
+			img.set(x, y, tracer(ray, scene, depth));
+			/*img.set(x, y, glm::vec3(1, 1, 1));
 			Intersection inter;
 			for (int i = 0; i < scene.objects.size(); ++i){
 			
@@ -64,7 +66,7 @@ int main()
 				
 				
 
-			}
+			}*/
 			
 
 		}
