@@ -26,6 +26,9 @@ bool Mesh::intersect(const Ray& ray, Intersection &inter){
 
 	if (intersected){
 		inter.t = tInt;
+		inter.worldPosition = ray.origin + (float)inter.t*ray.direction;
+		inter.objType = MESH;
+		
 	}
 	else{
 		inter.t = -1;
