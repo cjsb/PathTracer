@@ -7,8 +7,11 @@
 #include "Ray.h"
 #include "Intersection.h"
 #include "Light.h"
+#include <algorithm>
 
+	glm::vec3 phongShading(const Material& mat, const Light& light, const glm::vec3& L, const glm::vec3& N, const glm::vec3& V, const glm::vec3& R);
 
+	std::vector<bool> findLight(const Scene &scene, const Intersection &inter);
 
 	glm::vec3 tracer(const Ray &ray, const Scene &scene, int &depth);
 

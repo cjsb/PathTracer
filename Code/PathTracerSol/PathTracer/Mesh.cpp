@@ -5,6 +5,7 @@ bool Mesh::intersect(const Ray& ray, Intersection &inter){
 
 	double tInt= std::numeric_limits<double>::max();
 	bool intersected = false;
+	glm::vec3 normalTriangle;
 	for (int j = 0; j < triangles.size(); ++j){
 
 		double t = 0;
@@ -19,6 +20,7 @@ bool Mesh::intersect(const Ray& ray, Intersection &inter){
 			intersected = true;
 			if (t < tInt){
 				tInt = t;
+				normalTriangle = triangles.at(j).normal;
 				intersected = true;
 			}
 			
@@ -27,7 +29,10 @@ bool Mesh::intersect(const Ray& ray, Intersection &inter){
 
 	if (intersected){
 		inter.t = tInt;
-		inter.worldPosition = ray.origin + (float)inter.t * ray.direction;
+		inter.worldPosition = ray.origin + (float)inter.t*ray.direction;
+		inter.objType = MESH;
+		inter.normal = glm::normalize(normalTriangle);
+
 	}
 	else{
 		inter.t = -1;

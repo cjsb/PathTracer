@@ -37,6 +37,8 @@ bool Triangle::rayTriangleIntersect(Ray ray, double &t, double &u, double &v)
 	vec3 v0v2 = v2 - v0;
 	// no need to normalize
 	vec3 N = cross(v0v1, v0v2);  //v0v1.crossProduct(v0v2); // N 
+	
+	normal = N; // Salvando o vetor normal
 
 	float denom = dot(N, N);  // N.dotProduct(N);
 
