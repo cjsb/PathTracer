@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Ray.h"
 #include "Intersection.h"
+#include "Light.h"
 
 
 

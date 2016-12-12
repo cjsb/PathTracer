@@ -14,6 +14,7 @@ bool Mesh::intersect(const Ray& ray, Intersection &inter){
 		bool findTri = triangles.at(j).rayTriangleIntersect(ray, t, u, v);
 		//cout << t << endl;
 		//bool find = 
+
 		if (findTri){
 			intersected = true;
 			if (t < tInt){
@@ -26,6 +27,7 @@ bool Mesh::intersect(const Ray& ray, Intersection &inter){
 
 	if (intersected){
 		inter.t = tInt;
+		inter.worldPosition = ray.origin + (float)inter.t * ray.direction;
 	}
 	else{
 		inter.t = -1;
