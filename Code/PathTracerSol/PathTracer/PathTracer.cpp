@@ -213,8 +213,23 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 
 			TYPERAY newRayType = chooseRay(scene.objects.at(inter.index)->material.Kd, scene.objects.at(inter.index)->material.Ks, scene.objects.at(inter.index)->material.Kt);
 
+			static std::random_device rd;
+			static std::mt19937 gen(rd());
+
 			if (newRayType == DIFFUSE){
+				std::uniform_real_distribution<float> csi(0, 1);
+				float  csi1 = csi(gen);
+				float  csi1s = sqrt(csi1);
+				float  csi2 = 2 * M_PI * csi(gen);
+
+				vec3 w = N;
+				vec3 u = glm::normalize(cross(fabs(w.x) > 0.1 ? vec3(0, 1, 0) : vec3(1, 0, 0), w));
+				vec3 v = cross(w, u);
+				vec3 d = normalize(cos(csi2)*csi1s*u + sin(csi2)*csi1s*v + sqrt(1 - csi1)*w);
 				
+				Ray RayDiffuse(inter.worldPosition, d);
+				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
+				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd*tracer(RayDiffuse, scene, options, depth - 1);
 			}
 			else if (newRayType == SPECULAR){
 				Ray RaySpecular(inter.worldPosition, glm::normalize(R));
@@ -222,7 +237,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, depth - 1);
 			}
 			else{ //TRANSMITED
-				
+						
 			}
 			
 			return glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));

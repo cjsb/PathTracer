@@ -53,7 +53,7 @@ int main()
 				glm::vec3 cam_ray_direction = glm::normalize(scene.camera.cameraDir + ((scene.camera.camRight*(float)dirX) + (scene.camera.camDown*(float)dirY)));
 
 				Ray ray(cam_ray_origin, cam_ray_direction);
-				int depth = 5;
+				int depth = 10;
 				img.set(x, y, tracer(ray, scene, conf, depth));
 				/*img.set(x, y, glm::vec3(1, 1, 1));
 				Intersection inter;

@@ -1,5 +1,6 @@
 #ifndef _pathtracer_h
 #define _pathtracer_h
+#define M_PI           3.14159265358979323846
 
 #include "glm\glm\glm.hpp"
 #include "glm\glm\gtc\constants.hpp"
