@@ -14,7 +14,6 @@ using namespace std;
 
 int main()
 {
-	glm::vec3 a = glm::vec3(1,0,0);
 	cout << "Hello Path Tracer!" << endl;
 	Scene scene;
 	Options conf;

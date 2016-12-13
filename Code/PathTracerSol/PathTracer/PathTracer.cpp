@@ -78,7 +78,7 @@ std::vector<bool> findLight(const Scene &scene, const Intersection &inter){
 }
 
 
-glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int &depth){
+glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int depth){
 
 	bool intersected = false;
 	Intersection inter;
@@ -133,6 +133,10 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 			if (interLight.objType == LIGHT) findLight.push_back(true);
 			else findLight.push_back(false);*/
 		// }
+
+		if (depth <= 0) {
+			return options.background;
+		}
 
 		if (inter.objType == LIGHT){
 			return glm::vec3(scene.lights.at(inter.index)->r,
@@ -200,10 +204,25 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 				//	finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
 				//}
 
-				glm::vec3 color;
-				color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->centralPoint - inter.worldPosition), N, V, R);
-				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
+				
+				finalColor += phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->centralPoint - inter.worldPosition), N, V, R);
+				
+				
 
+			}
+
+			TYPERAY newRayType = chooseRay(scene.objects.at(inter.index)->material.Kd, scene.objects.at(inter.index)->material.Ks, scene.objects.at(inter.index)->material.Kt);
+
+			if (newRayType == DIFFUSE){
+				
+			}
+			else if (newRayType == SPECULAR){
+				Ray RaySpecular(inter.worldPosition, glm::normalize(R));
+				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
+				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, depth - 1);
+			}
+			else{ //TRANSMITED
+				
 			}
 			
 			return glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));

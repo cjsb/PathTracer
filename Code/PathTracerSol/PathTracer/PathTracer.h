@@ -17,7 +17,7 @@
 
 	std::vector<bool> findLight(const Scene &scene, const Intersection &inter);
 
-	glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int &depth);
+	glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int depth);
 
 	bool rayCast(const Ray &ray, const Scene &scene, Intersection &inter);
 
