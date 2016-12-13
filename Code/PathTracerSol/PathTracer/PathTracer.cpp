@@ -16,6 +16,29 @@ glm::vec3 phongShading(const Material& mat, const Light& light, const glm::vec3&
 	return color;
 }
 
+TYPERAY chooseRay(double Kd, double Ks, double Kt){
+
+	double ktot = Kd + Ks + Kt;
+	TYPERAY typeRay;
+	std::random_device rd;     // only used once to initialise (seed) engine
+	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+	std::uniform_real_distribution<double> uni(0, ktot); // guaranteed unbiased
+
+	auto randomNumber = uni(rng);
+
+	if (randomNumber < Kd){
+		typeRay = DIFFUSE;
+	}
+	else if (randomNumber < Kd+Ks){
+		typeRay = SPECULAR;
+	}
+	else{
+		typeRay = TRANSMITED;
+	}
+
+	return typeRay;
+}
+
 std::vector<bool> findLight(const Scene &scene, const Intersection &inter){
 	Intersection interLight;
 	std::vector<bool> FL;
@@ -55,7 +78,7 @@ std::vector<bool> findLight(const Scene &scene, const Intersection &inter){
 }
 
 
-glm::vec3 tracer(const Ray &ray, const Scene &scene, int &depth){
+glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int &depth){
 
 	bool intersected = false;
 	Intersection inter;
@@ -121,10 +144,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, int &depth){
 				scene.objects.at(inter.index)->material.g,
 				scene.objects.at(inter.index)->material.b);*/
 
-			//Lança intersects para cada vertice de cada triangulo de cada fonte luminosa e guarda num vector de booleanos se esses raios acertaram ou não os vertices
-			std::vector<bool> FL = findLight(scene, inter);
-			bool foundLight = true;
-
+			
 
 			glm::vec3 N = inter.normal;
 			glm::vec3 V = glm::normalize(ray.direction);
@@ -154,36 +174,43 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, int &depth){
 				scene.objects.at(inter.index)->material.b);
 			}*/
 
+			
+
 			glm::vec3 finalColor(0, 0, 0);
 			int lightLimit = scene.lights.size();
 			int triangleLimit;
 			glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
 
 			for (int light = 0; light < lightLimit; light++){ // Para cada fonte de luz 'lights'
-				triangleLimit = scene.lights.at(light)->mesh.triangles.size();
+				//triangleLimit = scene.lights.at(light)->mesh.triangles.size();
 
-				for (int triangle = 0; triangle < triangleLimit; triangle++){ // Para cada triangulo 'triangles' da fonte de luz 'lights'
-					Ray auxRay_v0(inter.worldPosition, glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v0 - inter.worldPosition));
-					Ray auxRay_v1(inter.worldPosition, glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v1 - inter.worldPosition));
-					Ray auxRay_v2(inter.worldPosition, glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v2 - inter.worldPosition));
+				//for (int triangle = 0; triangle < triangleLimit; triangle++){ // Para cada triangulo 'triangles' da fonte de luz 'lights'
+				//	Ray auxRay_v0(inter.worldPosition, glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v0 - inter.worldPosition));
+				//	Ray auxRay_v1(inter.worldPosition, glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v1 - inter.worldPosition));
+				//	Ray auxRay_v2(inter.worldPosition, glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v2 - inter.worldPosition));
 
-					glm::vec3 color;
-					color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v0 - inter.worldPosition), N, V, R);
-					finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
+				//	glm::vec3 color;
+				//	color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v0 - inter.worldPosition), N, V, R);
+				//	finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
 
-					color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v1 - inter.worldPosition), N, V, R);
-					finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
+				//	color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v1 - inter.worldPosition), N, V, R);
+				//	finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
 
-					color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v2 - inter.worldPosition), N, V, R);
-					finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
-				}
+				//	color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->mesh.triangles.at(triangle).v2 - inter.worldPosition), N, V, R);
+				//	finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
+				//}
+
+				glm::vec3 color;
+				color = phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->centralPoint - inter.worldPosition), N, V, R);
+				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
+
 			}
 			
-			return glm::vec3(finalColor.x / (finalColor.x + 1), finalColor.y / (finalColor.y + 1), finalColor.z / (finalColor.z + 1));
+			return glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));
 		}
 	}
 	else{
-		return glm::vec3(1, 1, 1);
+		return options.background;
 	}
 }
 

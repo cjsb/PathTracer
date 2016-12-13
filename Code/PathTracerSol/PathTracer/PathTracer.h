@@ -7,16 +7,22 @@
 #include "Ray.h"
 #include "Intersection.h"
 #include "Light.h"
+#include "Options.h"
 #include <algorithm>
+#include <random>
+
+	enum TYPERAY{DIFFUSE, SPECULAR, TRANSMITED};
 
 	glm::vec3 phongShading(const Material& mat, const Light& light, const glm::vec3& L, const glm::vec3& N, const glm::vec3& V, const glm::vec3& R);
 
 	std::vector<bool> findLight(const Scene &scene, const Intersection &inter);
 
-	glm::vec3 tracer(const Ray &ray, const Scene &scene, int &depth);
+	glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int &depth);
 
 	bool rayCast(const Ray &ray, const Scene &scene, Intersection &inter);
 
+	TYPERAY chooseRay(double Kd, double Ks, double Kt);
 
+	bool hitLight(const Scene &scene, const Intersection &inter);
 
 #endif

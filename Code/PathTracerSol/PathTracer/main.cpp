@@ -14,7 +14,7 @@ using namespace std;
 
 int main()
 {
-
+	glm::vec3 a = glm::vec3(1,0,0);
 	cout << "Hello Path Tracer!" << endl;
 	Scene scene;
 	Options conf;
@@ -55,7 +55,7 @@ int main()
 
 				Ray ray(cam_ray_origin, cam_ray_direction);
 				int depth = 5;
-				img.set(x, y, tracer(ray, scene, depth));
+				img.set(x, y, tracer(ray, scene, conf, depth));
 				/*img.set(x, y, glm::vec3(1, 1, 1));
 				Intersection inter;
 				for (int i = 0; i < scene.objects.size(); ++i){
