@@ -23,9 +23,10 @@ int main()
 	cout << "sdl loaded" << endl;
 	//test ray cast
 	Image img(conf.size.x, conf.size.y);
-		
+
 	for (int x = 0; x < img.width; x++) {
 		for (int y = 0; y < img.height; y++) {
+			glm::vec3 pixelColor(0, 0, 0);
 			for (int z = 0; z < conf.npaths; z++){
 				double xamnt, yamnt;
 				// start with no anti-aliasing
@@ -53,8 +54,8 @@ int main()
 				glm::vec3 cam_ray_direction = glm::normalize(scene.camera.cameraDir + ((scene.camera.camRight*(float)dirX) + (scene.camera.camDown*(float)dirY)));
 
 				Ray ray(cam_ray_origin, cam_ray_direction);
-				int depth = 10;
-				img.set(x, y, tracer(ray, scene, conf, depth));
+				int depth = 15;
+
 				/*img.set(x, y, glm::vec3(1, 1, 1));
 				Intersection inter;
 				for (int i = 0; i < scene.objects.size(); ++i){
@@ -67,11 +68,17 @@ int main()
 
 
 				}*/
+				glm::vec3 samplePixel = tracer(ray, scene, conf, depth);
+				pixelColor += samplePixel;
+
 			}
+
+			pixelColor /= (float)conf.npaths;
+			img.set(x, y, glm::vec3(pixelColor.x / (pixelColor.x + conf.tonemapping), pixelColor.y / (pixelColor.y + conf.tonemapping), pixelColor.z / (pixelColor.z + conf.tonemapping)));
 		}
 	}
 
-	img.save("testeImage.ppm"); 
+	img.save("testeImage.ppm");
 	return 0;
 
 }

@@ -240,7 +240,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 						
 			}
 			
-			return glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));
+			return finalColor;//glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));
 		}
 	}
 	else{
