@@ -54,7 +54,7 @@ int main()
 				glm::vec3 cam_ray_direction = glm::normalize(scene.camera.cameraDir + ((scene.camera.camRight*(float)dirX) + (scene.camera.camDown*(float)dirY)));
 
 				Ray ray(cam_ray_origin, cam_ray_direction);
-				int depth = 15;
+				int depth = 10;
 
 				/*img.set(x, y, glm::vec3(1, 1, 1));
 				Intersection inter;
@@ -75,7 +75,9 @@ int main()
 
 			pixelColor /= (float)conf.npaths;
 			img.set(x, y, glm::vec3(pixelColor.x / (pixelColor.x + conf.tonemapping), pixelColor.y / (pixelColor.y + conf.tonemapping), pixelColor.z / (pixelColor.z + conf.tonemapping)));
+			
 		}
+		cout << x << endl;
 	}
 
 	img.save("testeImage.ppm");
