@@ -2,6 +2,7 @@
 
 using namespace glm;
 
+
 bool Triangle::rayTriangleIntersect(Ray ray, double &t, double &u, double &v)
 {
 #ifdef MOLLER_TRUMBORE 

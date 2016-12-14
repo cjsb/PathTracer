@@ -138,6 +138,7 @@ void Options::readObj(const char *filename, Mesh &mesh){
 
 	//Tem que criar um vetor de vec3
 	glm::vec3 vertex, faces;
+	int face1, face2, face3;
 	std::vector<glm::vec3> vertices;
 	std::vector<Triangle> triangles;
 
@@ -148,8 +149,8 @@ void Options::readObj(const char *filename, Mesh &mesh){
 			vertices.push_back(vertex);
 		}else if (type == "f"){
 
-			modelo >> faces.x >> faces.y >> faces.z;
-			mesh.triangles.push_back(Triangle(vertices.at(faces.x - 1), vertices.at(faces.y - 1), vertices.at(faces.z - 1)));
+			modelo >> face1 >> face2 >> face3;
+			mesh.triangles.push_back(Triangle(vertices.at(face1 - 1), vertices.at(face2 - 1), vertices.at(face3 - 1)));
 		}else {
 			modelo.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
