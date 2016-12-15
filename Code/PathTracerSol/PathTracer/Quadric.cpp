@@ -57,6 +57,19 @@ bool Quadric::intersect(const Ray& ray, Intersection &inter){
 	if (t < 0.001)
 		return false;
 
+	glm::vec3 wp = ray.origin + (float)t * ray.direction;
+	const float x = wp.x;
+	const float y = wp.y;
+	const float z = wp.z;
+
+	float gradx = 2 * a * x + d * y + e * z + g;
+	float grady = 2 * b * y + d * x + f * z + h;
+	float gradz = 2 * c * z + e * x + f * y + j;
+
 	inter.t = t;
+	inter.normal = glm::normalize(glm::vec3(gradx, grady, gradz));
+	inter.worldPosition = wp;
+	inter.objType = QUADRIC;
+
 	return true;
 }

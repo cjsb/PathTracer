@@ -90,6 +90,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 		}
 		//objectquadric a b c d e f g h j k red green blue ka kd ks kt n
 		else if (stringvar.compare("objectquadric") == 0){
+			Material m;
 			is >> objQuadric.a;
 			is >> objQuadric.b;
 			is >> objQuadric.c;
@@ -100,20 +101,22 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> objQuadric.h;
 			is >> objQuadric.j;
 			is >> objQuadric.k;
-			is >> objQuadric.material.r;
-			is >> objQuadric.material.g;
-			is >> objQuadric.material.b;
-			is >> objQuadric.material.Ka;
-			is >> objQuadric.material.Kd;
-			is >> objQuadric.material.Ks;
-			is >> objQuadric.material.Kt;
-			is >> objQuadric.material.n;
+			is >> m.r;
+			is >> m.g;
+			is >> m.b;
+			is >> m.Ka;
+			is >> m.Kd;
+			is >> m.Ks;
+			is >> m.Kt;
+			is >> m.n;
 
 			/*Quadric quad(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
 				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k, objQuadric.material);
 			quadrics.push_back(quad);*/
+			
 			Quadric *quad = new Quadric(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
-				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k, objQuadric.material);
+				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k);
+			quad->material = m;
 			scene.objects.push_back(quad);
 
 		}
@@ -124,7 +127,9 @@ void Options::readOptions(char* fileName, Scene &scene){
 	}
 
 	//create scene
-	Camera camera(eye, glm::vec3(0, 0, -15), glm::vec3(0, -1, 0));
+
+	Camera camera(eye, glm::vec3(0, 0, -1.0), glm::vec3(0, -1, 0));
+
 	scene.camera = camera;
 	/*scene.lights = lights;*/
 	scene.meshes = meshes;

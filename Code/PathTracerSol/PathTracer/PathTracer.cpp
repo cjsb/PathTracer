@@ -152,8 +152,12 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 			return glm::vec3(scene.lights.at(inter.index)->r,
 				scene.lights.at(inter.index)->g,
 				scene.lights.at(inter.index)->b);
-		}
-		else{
+		
+		}else{
+
+			/*if (inter.objType == QUADRIC){
+				std::cout << "circ";
+			}*/
 			/*return glm::vec3(scene.objects.at(inter.index)->material.r,
 				scene.objects.at(inter.index)->material.g,
 				scene.objects.at(inter.index)->material.b);*/
