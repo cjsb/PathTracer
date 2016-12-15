@@ -19,7 +19,7 @@ int main()
 	Options conf;
 	//vector trian
 	cout << "sdl loading..." << endl;
-	conf.readOptions("files/twoplanessphere2.sdl", scene);
+	conf.readOptions("files/onesphere2.sdl", scene);
 	cout << "sdl loaded" << endl;
 	//test ray cast
 	Image img(conf.size.x, conf.size.y);
