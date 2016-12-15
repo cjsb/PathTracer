@@ -13,7 +13,7 @@ glm::vec3 phongShading(const Material& mat, const Light& light, const glm::vec3&
 	/*auto lightColor = light.emissionColor();
 	color c = black;*/
 	glm::vec3 lightColor(light.r, light.g, light.b);
-	glm::vec3 color(0.02, 0.02, 0.02);
+	glm::vec3 color(0, 0, 0);
 	float NL = glm::dot(N, L);
 	float LR = glm::dot(L, R);
 
@@ -261,7 +261,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 						
 			}
 			
-			return glm::vec3(clip(finalColor.x, 0, 1), clip(finalColor.y, 0, 1), clip(finalColor.z, 0, 1)); //finalColor;//glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));
+			return finalColor; //finalColor;//glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));
 		}
 	}
 	else{

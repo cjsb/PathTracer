@@ -14,7 +14,7 @@ ambient 0.5
 # Luz branca retangulo no centro do teto
 light luzcornell.obj 1.0 1.0 1.0 1.0
 
-npaths 500
+npaths 100
 tonemapping 1.0
 seed 9
 
@@ -34,13 +34,13 @@ object leftwall.obj 1.0 0.0 0.0 0.3 0.7 0.0 0 5
 object rightwall.obj 0.0 1.0 0.0 0.3 0.7 0 0 5
 
 # floor WHITE
-object floor.obj 0.0 0.0 1.0 0.3 0.7 0 0 5
+object floor.obj 0.5 0.5 0.5 0.3 0.7 0 0 5
 
 # back wall WHITE
-object back.obj 1.0 1.0 1.0 0.3 0.7 0 0 5
+object back.obj 0.5 0.5 0.5 0.3 0.7 0 0 5
 
 # ceiling WHITE
-object ceiling.obj 1.0 1.0 1.0 0.3 0.7 0 0 5
+object ceiling.obj 0.5 0.5 0.5 0.3 0.7 0 0 5
 
 # cube 1 WHITE
 object cube1.obj 1.0 1.0 1.0 0.3 0.7 0 0 5

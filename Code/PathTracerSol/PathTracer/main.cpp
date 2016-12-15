@@ -74,7 +74,7 @@ int main()
 			}
 
 			pixelColor /= (float)conf.npaths;
-			img.set(x, y, glm::vec3(pixelColor.x / (pixelColor.x + conf.tonemapping), pixelColor.y / (pixelColor.y + conf.tonemapping), pixelColor.z / (pixelColor.z + conf.tonemapping)));
+			img.set(x, y, 0.2f*glm::vec3(pixelColor.x / (pixelColor.x + conf.tonemapping), pixelColor.y / (pixelColor.y + conf.tonemapping), pixelColor.z / (pixelColor.z + conf.tonemapping)));
 			
 		}
 		cout << x << endl;
