@@ -253,7 +253,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd*tracer(RayDiffuse, scene, options, depth - 1);
 			}
 			else if (newRayType == SPECULAR){
-				Ray RaySpecular(inter.worldPosition, glm::normalize(R));
+				Ray RaySpecular(inter.worldPosition + inter.normal*0.1f, glm::normalize(R));
 				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
 				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, depth - 1);
 			}
