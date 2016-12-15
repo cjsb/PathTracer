@@ -14,7 +14,7 @@ ambient 0.5
 # Luz branca retangulo no centro do teto
 light luzcornell.obj 1.0 1.0 1.0 1.0
 
-npaths 1000
+npaths 2000
 tonemapping 1.0
 seed 9
 
@@ -28,25 +28,25 @@ seed 9
 #object <name.obj> red green blue ka kd ks kt n
 
 # left wall RED
-object leftwall.obj 1.0 0.0 0.0 0.3 0.7 0.02 0 10
+object leftwall.obj 1.0 0.0 0.0 0.3 0.7 0.01 0 12
 
 # right wall GREEN
-object rightwall.obj 0.0 1.0 0.0 0.3 0.7 0.02 0 10
+object rightwall.obj 0.0 1.0 0.0 0.3 0.7 0.01 0 12
 
 # floor BLUE
-object floor.obj 0.0 0.0 1.0 0.3 0.7 0.02 0 10
+object floor.obj 0.0 0.0 1.0 0.3 0.7 0.01 0 12
 
 # back wall WHITE
-object back.obj 0.1 0.1 0.1  0.3 0.7 0.02 0 10
+object back.obj 0.05 0.05 0.05  0.3 0.7 0.01 0 12
 
 # ceiling WHITE
-object ceiling.obj 0.1 0.1 0.1  0.3 0.7 0.02 0 10
+object ceiling.obj 0.05 0.05 0.05  0.3 0.7 0.01 0 12
 
 # cube 1 WHITE
-object cube1.obj 0.1 0.1 0.1  0.3 0.7 0.02 0 10
+object cube1.obj 0.05 0.05 0.05  0.3 0.7 0.01 0 12
 
 # cube 2 WHITE
-object cube2.obj 0.1 0.1 0.1 0.3 0.7 0.02 0 10
+object cube2.obj 0.05 0.05 0.05 0.3 0.7 0.01 0 12
 
 output cornell.pnm
 
