@@ -13,7 +13,9 @@ glm::vec3 phongShading(const Material& mat, const Light& light, const glm::vec3&
 	/*auto lightColor = light.emissionColor();
 	color c = black;*/
 	glm::vec3 lightColor(light.r, light.g, light.b);
-	glm::vec3 color(0, 0, 0);
+
+	glm::vec3 color(0.0, 0.0, 0.0);
+
 	float NL = glm::dot(N, L);
 	float LR = glm::dot(L, R);
 
