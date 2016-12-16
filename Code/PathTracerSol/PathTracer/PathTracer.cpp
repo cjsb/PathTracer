@@ -1,11 +1,16 @@
 #include "PathTracer.h"
 #include <algorithm>
-
+#include <math.h>
 
 float clip(float n, float lower, float upper)
 {
 	n = (n > lower) * n + !(n > lower) * lower;
 	return (n < upper) * n + !(n < upper) * upper;
+}
+
+bool fcmp(double a, double b) { 
+	double epsilon = 0.000001f;
+	return (std::fabs(a - b) < epsilon); 
 }
 
 glm::vec3 phongShading(const Material& mat, const Light& light, const glm::vec3& L, const glm::vec3& N, const glm::vec3& V, const glm::vec3& R)
@@ -88,7 +93,7 @@ std::vector<bool> findLight(const Scene &scene, const Intersection &inter){
 }
 
 
-glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int depth){
+glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, const double &ri, int depth){
 
 	bool intersected = false;
 	Intersection inter;
@@ -193,19 +198,19 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 			}*/
 
 			bool dark = false;
-			for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
-				glm::vec3 l = scene.lights.at(light)->centralPoint - inter.worldPosition;
-				glm::vec3 L = normalize(l);
-				Ray lightRay(inter.worldPosition + inter.normal*0.001f, L);
-				Intersection interL;
-				bool hit = rayCast(lightRay, scene, interL);
-				if (hit && interL.objType == LIGHT){
-					dark = false;
-				}
-				else{
-					dark = true;
-				}
-			}
+			//for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
+			//	glm::vec3 l = scene.lights.at(light)->centralPoint - inter.worldPosition;
+			//	glm::vec3 L = normalize(l);
+			//	Ray lightRay(inter.worldPosition + inter.normal*0.001f, L);
+			//	Intersection interL;
+			//	bool hit = rayCast(lightRay, scene, interL);
+			//	if (hit && interL.objType == LIGHT){
+			//		dark = false;
+			//	}
+			//	else{
+			//		dark = true;
+			//	}
+			//}
 
 			glm::vec3 finalColor(0, 0, 0);
 			int lightLimit = scene.lights.size();
@@ -254,17 +259,33 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, int
 				vec3 v = cross(w, u);
 				vec3 d = normalize(cos(csi2)*csi1s*u + sin(csi2)*csi1s*v + sqrt(1 - csi1)*w);
 				
-				Ray RayDiffuse(inter.worldPosition + inter.normal*0.1f, d);
+				Ray RayDiffuse(inter.worldPosition + d*0.0005f, d);
 				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
-				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd*tracer(RayDiffuse, scene, options, depth - 1);
+				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd*tracer(RayDiffuse, scene, options, ri, depth - 1);
 			}
 			else if (newRayType == SPECULAR){
-				Ray RaySpecular(inter.worldPosition + inter.normal*0.1f, glm::normalize(R));
+				Ray RaySpecular(inter.worldPosition + glm::normalize(R)*0.0005f, glm::normalize(R));
 				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
-				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, depth - 1);
+				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, ri, depth - 1);
 			}
 			else{ //TRANSMITED
-						
+				double n1 = ri;
+				double n2 = scene.objects.at(inter.index)->material.ri;
+				if (fcmp(ri, scene.objects.at(inter.index)->material.ri)) {
+					n2 = 1.0f;
+					N = -N;
+				}
+
+				double nr = n1/n2;
+				double cosI = -dot(N, V);
+				double sinT2 = nr * nr * (1.0 - cosI * cosI);
+
+				const float cosT = sqrt(1 - sinT2);
+				glm::vec3 T = V * (float)nr + (float)(nr * cosI - cosT) * N;
+				if (sinT2 < 1.0f || fcmp(sinT2, 1.0)) {
+					Ray rayTransmited(inter.worldPosition + T*0.0005f, T);
+					finalColor += objColor * (float)scene.objects.at(inter.index)->material.Kt * tracer(rayTransmited, scene, options, scene.objects.at(inter.index)->material.ri, depth - 1);
+				}
 			}
 			
 			return finalColor; //finalColor;//glm::vec3(finalColor.x / (finalColor.x + options.tonemapping), finalColor.y / (finalColor.y + options.tonemapping), finalColor.z / (finalColor.z + options.tonemapping));

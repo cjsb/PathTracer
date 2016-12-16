@@ -23,7 +23,7 @@ int main()
 	cout << "sdl loaded" << endl;
 	//test ray cast
 	Image img(conf.size.x, conf.size.y);
-
+	double ri = 1.0;
 	for (int x = 0; x < img.width; x++) {
 		for (int y = 0; y < img.height; y++) {
 			glm::vec3 pixelColor(0, 0, 0);
@@ -68,7 +68,7 @@ int main()
 
 
 				}*/
-				glm::vec3 samplePixel = tracer(ray, scene, conf, depth);
+				glm::vec3 samplePixel = tracer(ray, scene, conf, ri, depth);
 				pixelColor += samplePixel;
 
 			}

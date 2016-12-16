@@ -78,6 +78,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> objMaterial.Ks;
 			is >> objMaterial.Kt;
 			is >> objMaterial.n;
+			is >> objMaterial.ri;
 			Mesh m;
 			string filePath = "files/";
 			filePath.append(objName);
@@ -109,6 +110,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> m.Ks;
 			is >> m.Kt;
 			is >> m.n;
+			is >> m.ri;
 
 			/*Quadric quad(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
 				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k, objQuadric.material);

@@ -13,10 +13,11 @@ public:
 	double  Ks;// Specular reflection coefficent
 	double  Kt;
 	int  n;// Specular reflection exponent
+	double ri;
 
 	Material(const double &r, const double &b, const double &g,
-		const double &Ka, const double &Kd, const double &Ks, const double &Kt, const int &n):
-	r(r), b(b), g(g), Ka(Ka), Kd(Kd), Ks(Ks), Kt(Kt), n(n) {}
+		const double &Ka, const double &Kd, const double &Ks, const double &Kt, const int &n, const double &ri) :
+	r(r), b(b), g(g), Ka(Ka), Kd(Kd), Ks(Ks), Kt(Kt), n(n), ri(ri) {}
 	Material(){}
 	~Material(){}
 };
