@@ -10,9 +10,9 @@ bool Quadric::intersect(const Ray& ray, Intersection &inter){
 	double  x0, y0, z0;// Origin coordinates
 	double t;
 
-	dx = ray.direction.x - ray.origin.x;
-	dy = ray.direction.y - ray.origin.y;
-	dz = ray.direction.z - ray.origin.z;
+	dx = ray.direction.x ;
+	dy = ray.direction.y ;
+	dz = ray.direction.z ;
 
 	x0 = ray.origin.x;
 	y0 = ray.origin.y;
@@ -67,7 +67,11 @@ bool Quadric::intersect(const Ray& ray, Intersection &inter){
 	float gradz = 2 * c * z + e * x + f * y + j;
 
 	inter.t = t;
-	inter.normal = glm::normalize(glm::vec3(gradx, grady, gradz));
+	glm::vec3 normal = glm::normalize(glm::vec3(gradx, grady, gradz));
+	/*if (glm::dot(wp, ray.origin)){
+		normal = -normal;
+	}*/
+	inter.normal = normal;
 	inter.worldPosition = wp;
 	inter.objType = QUADRIC;
 

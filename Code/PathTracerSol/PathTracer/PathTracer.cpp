@@ -198,19 +198,19 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 			}*/
 
 			bool dark = false;
-			//for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
-			//	glm::vec3 l = scene.lights.at(light)->centralPoint - inter.worldPosition;
-			//	glm::vec3 L = normalize(l);
-			//	Ray lightRay(inter.worldPosition + inter.normal*0.001f, L);
-			//	Intersection interL;
-			//	bool hit = rayCast(lightRay, scene, interL);
-			//	if (hit && interL.objType == LIGHT){
-			//		dark = false;
-			//	}
-			//	else{
-			//		dark = true;
-			//	}
-			//}
+			for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
+				glm::vec3 l = scene.lights.at(light)->centralPoint - inter.worldPosition;
+				glm::vec3 L = normalize(l);
+				Ray lightRay(inter.worldPosition + L*0.001f, L);
+				Intersection interL;
+				bool hit = rayCast(lightRay, scene, interL);
+				if (hit && interL.objType == LIGHT){
+					dark = false;
+				}
+				else{
+					dark = true;
+				}
+			}
 
 			glm::vec3 finalColor(0, 0, 0);
 			int lightLimit = scene.lights.size();
@@ -259,12 +259,12 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 				vec3 v = cross(w, u);
 				vec3 d = normalize(cos(csi2)*csi1s*u + sin(csi2)*csi1s*v + sqrt(1 - csi1)*w);
 				
-				Ray RayDiffuse(inter.worldPosition + d*0.0005f, d);
+				Ray RayDiffuse(inter.worldPosition + d*0.0001f, d);
 				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
 				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd*tracer(RayDiffuse, scene, options, 1.0f, depth - 1);
 			}
 			else if (newRayType == SPECULAR){
-				Ray RaySpecular(inter.worldPosition + glm::normalize(R)*0.000005f, glm::normalize(R));
+				Ray RaySpecular(inter.worldPosition + glm::normalize(R)*0.0001f, glm::normalize(R));
 				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
 				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, 1.0f, depth - 1);
 			}
