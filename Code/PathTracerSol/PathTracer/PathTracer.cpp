@@ -261,18 +261,18 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 				
 				Ray RayDiffuse(inter.worldPosition + d*0.0005f, d);
 				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
-				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd*tracer(RayDiffuse, scene, options, ri, depth - 1);
+				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd*tracer(RayDiffuse, scene, options, 1.0f, depth - 1);
 			}
 			else if (newRayType == SPECULAR){
-				Ray RaySpecular(inter.worldPosition + glm::normalize(R)*0.0005f, glm::normalize(R));
+				Ray RaySpecular(inter.worldPosition + glm::normalize(R)*0.000005f, glm::normalize(R));
 				glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
-				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, ri, depth - 1);
+				finalColor += objColor*(float)scene.objects.at(inter.index)->material.Ks*tracer(RaySpecular, scene, options, 1.0f, depth - 1);
 			}
 			else{ //TRANSMITED
 				double n1 = ri;
 				double n2 = scene.objects.at(inter.index)->material.ri;
 				if (fcmp(ri, scene.objects.at(inter.index)->material.ri)) {
-					n2 = 1.0f;
+					//n2 = 1.0f;
 					N = -N;
 				}
 
@@ -283,7 +283,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 				const float cosT = sqrt(1 - sinT2);
 				glm::vec3 T = V * (float)nr + (float)(nr * cosI - cosT) * N;
 				if (sinT2 < 1.0f || fcmp(sinT2, 1.0)) {
-					Ray rayTransmited(inter.worldPosition + T*0.0005f, T);
+					Ray rayTransmited(inter.worldPosition + T*0.0001f, T);
 					finalColor += objColor * (float)scene.objects.at(inter.index)->material.Kt * tracer(rayTransmited, scene, options, scene.objects.at(inter.index)->material.ri, depth - 1);
 				}
 			}
