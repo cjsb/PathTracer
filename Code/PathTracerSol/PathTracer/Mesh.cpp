@@ -100,3 +100,17 @@ bool Mesh::intersect(const Ray& ray, Intersection& inter)
 //
 //	return intersected;
 //}
+
+glm::vec3 Mesh::samplePosition()
+{
+	static std::uniform_int_distribution<int> tDist(0, triangles.size() - 1);
+	static std::uniform_real_distribution<float> vDist(0.0f, 1.0f);
+	static std::default_random_engine generator(0);
+	const Triangle& t = triangles.at(tDist(generator));
+	float sqrtr1 = sqrt(vDist(generator));
+	float r2 = vDist(generator);
+	float alfa = 1.0f - sqrtr1;
+	float beta = (1 - r2) * sqrtr1;
+	float gama = r2 * sqrtr1;
+	return alfa * t.v0 + beta * t.v1 + gama * t.v2;
+};

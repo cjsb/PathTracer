@@ -29,6 +29,8 @@ public:
 	}
 	Mesh(){}
 
+	glm::vec3 samplePosition();
+
 	bool intersect(const Ray& ray, Intersection &inter);
 };
 

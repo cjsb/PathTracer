@@ -196,24 +196,31 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 				scene.objects.at(inter.index)->material.g,
 				scene.objects.at(inter.index)->material.b);
 			}*/
-
+			glm::vec3 finalColor(0, 0, 0);
+			int lightPoints = 5;
 			bool dark = false;
 			for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
-				glm::vec3 l = scene.lights.at(light)->centralPoint - inter.worldPosition;
-				glm::vec3 L = normalize(l);
 
-				Ray lightRay(inter.worldPosition + inter.normal*0.001f, L);
-				Intersection interL;
-				bool hit = rayCast(lightRay, scene, interL);
-				if (hit && interL.objType == LIGHT){
-					dark = false;
-				}
-				else{
-					dark = true;
+				for (int lp = 0; lp < lightPoints; ++lp){
+					glm::vec3 l = scene.lights.at(light)->mesh.samplePosition() - inter.worldPosition;
+					glm::vec3 L = normalize(l);
+
+					Ray lightRay(inter.worldPosition + inter.normal*0.001f, L);
+					Intersection interL;
+					bool hit = rayCast(lightRay, scene, interL);
+					if (hit && interL.objType == LIGHT){
+						dark = false;
+						finalColor += phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->centralPoint - inter.worldPosition), N, V, R) / (float)lightPoints;
+
+
+					}
+					else{
+						dark = true;
+					}
 				}
 			}
 
-			glm::vec3 finalColor(0, 0, 0);
+			//glm::vec3 finalColor(0, 0, 0);
 			int lightLimit = scene.lights.size();
 			int triangleLimit;
 			glm::vec3 objColor(scene.objects.at(inter.index)->material.r, scene.objects.at(inter.index)->material.g, scene.objects.at(inter.index)->material.b);
@@ -237,9 +244,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 				//	finalColor += objColor*(float)scene.objects.at(inter.index)->material.Kd* color;
 				//}
 
-				if (!dark)
-				finalColor += phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->centralPoint - inter.worldPosition), N, V, R);
-				
+				//if (!dark)
 				
 
 			}
