@@ -22,11 +22,11 @@ glm::vec3 phongShading(const Material& mat, const Light& light, const glm::vec3&
 	glm::vec3 color(0.0, 0.0, 0.0);
 
 	float NL = glm::dot(N, L);
-	float LR = glm::dot(L, R);
+	float VR = glm::dot(V, R);
 
 	
 	color += std::max(NL, 0.0f) * (float)mat.Kd * lightColor * glm::vec3(mat.r, mat.g, mat.b)* (float)light.Ip;
-	color += (float)mat.Ks * float(pow(std::max(LR, 0.0f), mat.n)) * lightColor * (float)light.Ip;
+	color += (float)mat.Ks * float(pow(std::max(VR, 0.0f), mat.n)) * lightColor * (float)light.Ip;
 
 	return color;
 }
@@ -201,7 +201,8 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 			for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
 				glm::vec3 l = scene.lights.at(light)->centralPoint - inter.worldPosition;
 				glm::vec3 L = normalize(l);
-				Ray lightRay(inter.worldPosition + L*0.001f, L);
+
+				Ray lightRay(inter.worldPosition + inter.normal*0.001f, L);
 				Intersection interL;
 				bool hit = rayCast(lightRay, scene, interL);
 				if (hit && interL.objType == LIGHT){
