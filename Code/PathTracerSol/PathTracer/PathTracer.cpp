@@ -283,6 +283,11 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 
 				const float cosT = sqrt(1 - sinT2);
 				glm::vec3 T = V * (float)nr + (float)(nr * cosI - cosT) * N;
+				
+				//to work with sphere
+				if (inter.objType == QUADRIC){
+					T = -T;
+				}
 				if (sinT2 < 1.0f || fcmp(sinT2, 1.0)) {
 					Ray rayTransmited(inter.worldPosition + T*0.0001f, T);
 					finalColor += objColor * (float)scene.objects.at(inter.index)->material.Kt * tracer(rayTransmited, scene, options, scene.objects.at(inter.index)->material.ri, depth - 1);
