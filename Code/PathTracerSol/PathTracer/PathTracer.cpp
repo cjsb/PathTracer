@@ -171,7 +171,9 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 
 			glm::vec3 N = inter.normal;
 			glm::vec3 V = glm::normalize(ray.direction);
-			glm::vec3 R = glm::reflect(V, N);
+			float cosI = glm::dot(N, V);
+			glm::vec3 R = V - 2.0f * cosI*N;
+			//glm::vec3 R = glm::reflect(V, N);
 
 			// Para cada raio que não intersectou diretamente os vertices, pinta-se o objeto de cinza
 			//for (int c = 0; c < FL.size(); c++){
@@ -197,12 +199,13 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 				scene.objects.at(inter.index)->material.b);
 			}*/
 			glm::vec3 finalColor(0, 0, 0);
-			int lightPoints = 5;
+			int lightPoints = 1;
 			bool dark = false;
 			for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
 
 				for (int lp = 0; lp < lightPoints; ++lp){
-					glm::vec3 l = scene.lights.at(light)->mesh.samplePosition() - inter.worldPosition;
+					glm::vec3 sample = scene.lights.at(light)->mesh.samplePosition();
+					glm::vec3 l = sample - inter.worldPosition;
 					glm::vec3 L = normalize(l);
 
 					Ray lightRay(inter.worldPosition + inter.normal*0.001f, L);
@@ -210,7 +213,7 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 					bool hit = rayCast(lightRay, scene, interL);
 					if (hit && interL.objType == LIGHT){
 						dark = false;
-						finalColor += phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(scene.lights.at(light)->centralPoint - inter.worldPosition), N, V, R) / (float)lightPoints;
+						finalColor += phongShading(scene.objects.at(inter.index)->material, *scene.lights.at(light), glm::normalize(sample - inter.worldPosition), N, V, R) / (float)lightPoints;
 
 
 					}
