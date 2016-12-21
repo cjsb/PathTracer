@@ -26,7 +26,7 @@ public:
 	vec3 eye, background;
 	vec2 size;
 	char *objName, *objLight;
-	char *outputFileName = "";
+	char *outputFileName;
 	Light light;
 	Quadric objQuadric;
 	Material objMaterial;

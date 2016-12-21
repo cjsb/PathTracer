@@ -1,5 +1,5 @@
 eye 0.0 0.0 0.0
-size 300 400
+size 300 300
 ortho -1 -1 1 1
 background 0.0 0.0 0.0
 ambient 0.5
@@ -7,12 +7,11 @@ ambient 0.5
 # Luz branca retangulo no centro do teto
 light luzcornell.obj 1.0 1.0 1.0 1.0
 
-npaths 40
+npaths 100
 tonemapping 1.0
-seed 9
+seed 5
 
-# object definition
-# a b c d e f g h j k red green blue Ka Kd Ks Kt n ri
+# object <name.obj> red green blue ka kd ks kt n
 
 # left wall RED
 object leftwall.obj 1.0 0.0 0.0 0.3 0.7 0 0 5 1
@@ -27,7 +26,7 @@ object floor.obj 0.5 0.5 0.5 0.3 0.7 0.5 0 5 1
 object back.obj 0.5 0.5 0.5 0.3 0.7 0 0 5 1
 
 # ceiling GRAY
-object ceiling.obj 0.5 0.5 0.5 0.3 0.7 0 0 5 1
+object ceiling.obj 0.8 0.8 0.8 0.3 0.7 0 0 5 1
 
 # cube 1 GRAY
 object cube1.obj 1 1 1 0.3 0.0 0.0 0.9 5 1.5
@@ -36,6 +35,8 @@ object cube1.obj 1 1 1 0.3 0.0 0.0 0.9 5 1.5
 # object cube2.obj 1.0 1.0 1.0 0.3 0.2 0.0 0.9 5 1.5
 
 
-objectquadric 1.0 1.0 1.0 0.0 0.0 0.0 2.0 2.0 25.0 630 0 0.8 0.8 0.0 0.2 0.4 0.8 5 1.5
+# objectquadric definition
+# a b c d e f g h j k red green blue Ka Kd Ks Kt n ri
+objectquadric 1.0 1.0 1.0 0.0 0.0 0.0 2.0 2.0 25.0 630 0.0 0.0 0.0 0.0 0.2 0.4 0.99 5 1.5
 
-output onesphere2.pnm
+output onesphere2.ppm

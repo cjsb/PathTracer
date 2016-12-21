@@ -199,11 +199,11 @@ glm::vec3 tracer(const Ray &ray, const Scene &scene, const Options &options, con
 				scene.objects.at(inter.index)->material.b);
 			}*/
 			glm::vec3 finalColor(0, 0, 0);
-			int lightPoints = 1;
+			int lightPoints = options.seed;
 			bool dark = false;
 			for (int light = 0; light < scene.lights.size(); light++){ // Para cada fonte de luz 'lights'
 
-				for (int lp = 0; lp < lightPoints; ++lp){
+				for (int lp = 0; lp < options.seed; ++lp){
 					glm::vec3 sample = scene.lights.at(light)->mesh.samplePosition();
 					glm::vec3 l = sample - inter.worldPosition;
 					glm::vec3 L = normalize(l);

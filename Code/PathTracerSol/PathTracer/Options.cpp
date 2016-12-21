@@ -9,6 +9,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 	is.open(fileName);
 
 	objLight = new char[40];
+	outputFileName = new char[40];
 	fileName = new char[40];
 	objName = new char[40];
 
@@ -123,7 +124,9 @@ void Options::readOptions(char* fileName, Scene &scene){
 
 		}
 		else if (stringvar.compare("output") == 0){
-			//is >> outputFileName;
+			is >> outputFileName;
+			//string outputFile = "";
+			//outputFile.append(outputFileName);
 		}
 		
 	}
