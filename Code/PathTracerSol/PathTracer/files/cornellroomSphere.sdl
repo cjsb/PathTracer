@@ -1,0 +1,43 @@
+eye 0.0 0.0 0.0
+size 800 800
+ortho -1 -1 1 1
+background 0.0 0.0 0.0
+ambient 0.5
+
+# Luz branca retangulo no centro do teto
+light luzcornell.obj 1.0 1.0 1.0 1.0
+
+npaths 200
+tonemapping 1.0
+seed 1
+
+# object <name.obj> red green blue ka kd ks kt n ri
+
+# left wall RED
+object leftwall.obj 1.0 0.0 0.0 0 0.0 0.3 0 5 1
+
+# right wall GREEN
+object rightwall.obj 0.0 1.0 0.0 0 0.9 0.0 0 5 1
+
+# floor WHITE
+object floor.obj 1.0 1.0 1.0 0 0.4 0 0 5 1
+
+# back wall WHITE
+object back.obj 1.0 1.0 1.0 0 0.4 0 0 5 1
+
+# ceiling WHITE
+object ceiling.obj 1.0 1.0 1.0 0 0.4 0 0 5 1
+
+# cube 1 GRAY
+object cube1.obj 1 1 1 0 0.0 0.0 0.9 5 1.5
+
+# cube 2 GRAY
+# object cube2.obj 0.3 0.3 0.3 0 0.2 0.6 0.1 5 1.5
+
+
+# objectquadric definition
+# a b c d e f g h j k red green blue Ka Kd Ks Kt n ri
+objectquadric 1.0 1.0 1.0 0.0 0.0 0.0 2.0 2.0 25.0 630 0.0 1.0 1.0 0 0.7 0.9 0.99 5 1.5
+# objectquadric 1.0 0.5 1.0 0.0 0.0 0.0 2.0 -1.0 25.0 629 1.0 1.0 0.0 0 0.7 0.9 0.99 5 1.5
+
+output cornellRoomMirrorEllipse.ppm
