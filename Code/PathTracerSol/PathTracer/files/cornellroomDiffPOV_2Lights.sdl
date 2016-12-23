@@ -1,5 +1,5 @@
 eye 0.1 0.25 -0.1
-size 800 800
+size 1000 1000
 ortho -1 -1 1 1
 background 0.0 0.0 0.0
 ambient 0.5
@@ -41,4 +41,4 @@ object cube1.obj 1 1 1 0 0.0 0.0 0.9 5 1.5
 # objectquadric 1.0 1.0 1.0 0.0 0.0 0.0 2.0 2.0 25.0 630 0.0 1.0 1.0 0 0.7 0.9 0.99 5 1.5
 objectquadric 1.0 0.5 1.0 0.0 0.0 0.0 2.0 0.0 25.0 628 1.0 1.0 0.0 0 0.7 0.9 0.99 5 1.5
 
-output cornellRoomEllipseDifferentPOV.ppm
+output cornellRoomDiffPOV_2Lights.ppm
