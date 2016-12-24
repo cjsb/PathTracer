@@ -92,6 +92,8 @@ void Options::readOptions(char* fileName, Scene &scene){
 		}
 		//objectquadric a b c d e f g h j k red green blue ka kd ks kt n
 		else if (stringvar.compare("objectquadric") == 0){
+			glm::vec3 bBoxMin;
+			glm::vec3 bBoxMax;
 			Material m;
 			is >> objQuadric.a;
 			is >> objQuadric.b;
@@ -112,13 +114,20 @@ void Options::readOptions(char* fileName, Scene &scene){
 			is >> m.Kt;
 			is >> m.n;
 			is >> m.ri;
+			is >> bBoxMin.x;
+			is >> bBoxMin.y;
+			is >> bBoxMin.z;
+			is >> bBoxMax.x;
+			is >> bBoxMax.y;
+			is >> bBoxMax.z;
+
 
 			/*Quadric quad(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
 				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k, objQuadric.material);
 			quadrics.push_back(quad);*/
 			
 			Quadric *quad = new Quadric(objQuadric.a, objQuadric.b, objQuadric.c, objQuadric.d, objQuadric.e, objQuadric.f,
-				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k);
+				objQuadric.g, objQuadric.h, objQuadric.j, objQuadric.k,bBoxMin, bBoxMax );
 			quad->material = m;
 			scene.objects.push_back(quad);
 
@@ -133,7 +142,7 @@ void Options::readOptions(char* fileName, Scene &scene){
 
 	//create scene
 
-	Camera camera(eye, glm::vec3(0, 0, -1), glm::vec3(0, -1, 0));
+	Camera camera(eye, glm::vec3(0, 0, -11), glm::vec3(0, -1, 0));
 
 	scene.camera = camera;
 	/*scene.lights = lights;*/

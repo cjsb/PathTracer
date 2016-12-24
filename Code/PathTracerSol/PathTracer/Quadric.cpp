@@ -59,6 +59,9 @@ bool Quadric::intersect(const Ray& ray, Intersection &inter){
 		return false;
 
 	glm::vec3 wp = ray.origin + (float)t * ray.direction;
+	if (wp.x <= bBoxMin.x || wp.y <= bBoxMin.y || wp.z <= bBoxMin.z || wp.x >= bBoxMax.x || wp.y >= bBoxMax.y || wp.z >= bBoxMax.z) {
+		return false;
+	}
 	const float x = wp.x;
 	const float y = wp.y;
 	const float z = wp.z;
